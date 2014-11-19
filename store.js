@@ -1,34 +1,76 @@
 var _ = require("underscore");
+var FQL = require("./FQL").FQL;
+var merge = require("./FQL").merge;
 
-var data = [];
+console.log();
+
+//var data = [];
+var data = new FQL();
+//data1.push({"name": "jordan", "text": "hey", "id": 0});
+
+//console.log(data1);
  
-module.exports = 
+module.exports =
 {
-  push: function(name, text)
+  push: function(name,text)
   {
-  	data.push(
-  	{
-    	"name": name,
-    	"text": text,
-      "id" : data.length
-  	});
+    data.push(
+    {
+      "name" : name,
+      "text" : text,
+      "id" : data.count()
+    });
   },
-
   list: function()
   {
-  	return data;
+    return data.exec();
   },
-
   find: function(properties)
   {
-    //console.log("hey");
-    //console.log(data);
-    //var returned;
-  	return _.where(data, properties);
-    //console.log(returned);
-    //return returned;
+    var temp;
+    temp = data.where(function(element)
+      {
+        var trueOrFalse = false;
+        for(key in properties)
+        {
+          if(element[key] == properties[key])
+          {
+            trueOrFalse = true;
+          }
+        }
+        return trueOrFalse;
+      });
+    return temp.movies;
   }
 }
+
+// module.exports = 
+// {
+//   push: function(name, text)
+//   {
+//   	data.push(
+//   	{
+//     	"name": name,
+//     	"text": text,
+//       "id" : data.length
+//   	});
+//   },
+
+//   list: function()
+//   {
+//   	return data;
+//   },
+
+//   find: function(properties)
+//   {
+//     //console.log("hey");
+//     //console.log(data);
+//     //var returned;
+//   	return _.where(data, properties);
+//     //console.log(returned);
+//     //return returned;
+//   }
+// }
 
 var randArrayEl = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
